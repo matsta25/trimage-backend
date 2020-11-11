@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/trimage
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="image"; filename="image.png"
+
+< C:/cat.png
+--boundary
+Content-Disposition: form-data; name="image"
+
+1
+--boundary
+
