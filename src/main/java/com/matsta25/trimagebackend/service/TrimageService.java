@@ -11,9 +11,9 @@ import java.io.IOException;
 public class TrimageService {
     public String run(MultipartFile multipartFile) throws IOException {
 
-        String fileName = FileUtil.getUuidFileName();
+        String fileName = FileUtil.getInputUuidFileName();
         FileUtil.saveFile(fileName, multipartFile);
-        RenderUtil.render();
+        RenderUtil.render(fileName);
 
         return "ok";
     }

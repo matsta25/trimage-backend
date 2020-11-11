@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class FileUtil {
-    public static String getUuidFileName() {
+    public static String getInputUuidFileName() {
         return UUID.randomUUID().toString().replace("-", "") + ".png";
     }
 

@@ -1,13 +1,21 @@
 package com.matsta25.trimagebackend.utlis;
 
+import jdk.swing.interop.SwingInterOpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class RenderUtil {
 
-    public static void render() throws IOException {
-        ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
+    static Logger logger = LoggerFactory.getLogger(RenderUtil.class);
+
+    public static void render(String fileName) throws IOException {
+        logger.info("render()");
+        ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName , "-n", "1000", "-v");
+//        ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
         watchProgress(process);
