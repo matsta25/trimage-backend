@@ -2,14 +2,13 @@ package com.matsta25.trimagebackend.controller;
 
 
 import com.matsta25.trimagebackend.service.TrimageService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/trimage")
 public class TrimageController {
@@ -21,7 +20,7 @@ public class TrimageController {
     }
 
     @PostMapping()
-    public String run(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<String> run(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         return trimageService.run(multipartFile);
     }
 }
