@@ -14,14 +14,14 @@ public class RenderUtil {
 
     public static void render(String fileName) throws IOException {
         logger.info("render()");
-        ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName , "-n", "1000", "-v");
-//        ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
+        ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName, "-n", "100", "-v");
+        // ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
-        watchProgress(process);
+        watchProgress(process, fileName);
     }
 
-    private static void watchProgress(final Process process) {
+    private static void watchProgress(final Process process, String fileName) {
         new Thread() {
             public void run() {
                 BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -33,8 +33,7 @@ public class RenderUtil {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
-                    // TODO:
-                    System.out.println("Delete image");
+                    // FileUtil.deleteFile(fileName);
                 }
             }
         }.start();
