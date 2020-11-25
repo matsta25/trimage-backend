@@ -14,7 +14,7 @@ public class RenderUtil {
 
     public static void render(String fileName) throws IOException {
         logger.info("render()");
-        ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName, "-n", "100", "-v");
+        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName, "-n", "100", "-v");
         // ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
         builder.redirectErrorStream(true);
         final Process process = builder.start();

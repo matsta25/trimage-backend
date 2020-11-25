@@ -1,6 +1,7 @@
 package com.matsta25.trimagebackend.controller;
 
 
+import com.matsta25.trimagebackend.dto.JsonResponseDto;
 import com.matsta25.trimagebackend.service.TrimageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,13 @@ public class TrimageController {
         this.trimageService = trimageService;
     }
 
-    @PostMapping()
-    public ResponseEntity<String> run(@RequestParam("image") MultipartFile multipartFile) throws IOException {
-        return trimageService.run(multipartFile);
+    @PostMapping("/upload-photo")
+    public ResponseEntity<JsonResponseDto> uploadPhoto(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+        return trimageService.uploadPhoto(multipartFile);
+    }
+
+    @PostMapping("/render")
+    public ResponseEntity<String> render(@RequestBody() String fileName) throws IOException {
+        return trimageService.render(fileName);
     }
 }
