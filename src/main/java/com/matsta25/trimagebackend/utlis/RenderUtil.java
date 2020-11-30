@@ -1,5 +1,6 @@
 package com.matsta25.trimagebackend.utlis;
 
+import com.matsta25.trimagebackend.dto.WebSocketMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class RenderUtil {
 
     public static void render(String fileName) throws IOException {
         logger.info("render()");
-        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "src/main/resources/static/photos/" + fileName, "-o", "src/main/resources/static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
+        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         // ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
@@ -43,13 +44,14 @@ public class RenderUtil {
                     Integer result = getActualNumberOfShapes(line);
                     if (result != null) {
                         double resultFloatPercent = (double)result/numberOfShapes * 100;
-                        webSocket.convertAndSend("/topic/chat", String.valueOf(resultFloatPercent));
+                        webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("PROGRESS", String.valueOf(resultFloatPercent)));
+//                        webSocket.convertAndSend("/topic/trimage", new WebSocketMessage().builder().type("PROGRESS").content(String.valueOf(resultFloatPercent)));
                     }
-                    webSocket.convertAndSend("/topic/chat", fileName);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
+                webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("STATUS", "DONE"));
                 // FileUtil.deleteFile(fileName);
             }
         }).start();
