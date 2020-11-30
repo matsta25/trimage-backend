@@ -14,7 +14,7 @@ public class FileUtil {
 
     public static void saveFile(String fileName,
                                 MultipartFile multipartFile) throws IOException {
-        Path uploadPath = Paths.get("photos");
+        Path uploadPath = Paths.get("src/main/resources/static/photos");
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -31,7 +31,7 @@ public class FileUtil {
     public static void deleteFile(String fileName) {
 
         try {
-            Files.deleteIfExists(Paths.get("photos/" + fileName));
+            Files.deleteIfExists(Paths.get("src/main/resources/static/photos/" + fileName));
         } catch (NoSuchFileException e) {
             System.out.println("No such file/directory exists");
         } catch (DirectoryNotEmptyException e) {

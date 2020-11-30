@@ -26,7 +26,7 @@ public class RenderUtil {
 
     public static void render(String fileName) throws IOException {
         logger.info("render()");
-        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "photos/" + fileName, "-o", "photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
+        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "src/main/resources/static/photos/" + fileName, "-o", "src/main/resources/static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         // ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
@@ -39,11 +39,13 @@ public class RenderUtil {
             String line = null;
             try {
                 while ((line = input.readLine()) != null) {
+                    System.out.println(line);
                     Integer result = getActualNumberOfShapes(line);
                     if (result != null) {
                         double resultFloatPercent = (double)result/numberOfShapes * 100;
                         webSocket.convertAndSend("/topic/chat", String.valueOf(resultFloatPercent));
                     }
+                    webSocket.convertAndSend("/topic/chat", fileName);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
