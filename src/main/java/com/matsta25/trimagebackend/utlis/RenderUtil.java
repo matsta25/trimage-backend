@@ -29,7 +29,7 @@ public class RenderUtil {
         logger.info("RenderUtil: render()");
 //        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command("bash", "-c", "primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v")
+        builder.command("bash", "-c", "primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
         watchProgress(process, fileName);
