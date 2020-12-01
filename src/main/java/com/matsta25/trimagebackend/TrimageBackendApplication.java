@@ -36,7 +36,7 @@ public class TrimageBackendApplication implements CommandLineRunner {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                logger.info(line);
             }
         }
     }
