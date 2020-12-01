@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 @EnableScheduling
 public class TrimageBackendApplication implements CommandLineRunner {
 
-    public static boolean IS_PRODUCTION = false;
+    public static boolean IS_PRODUCTION = true;
 
     Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
