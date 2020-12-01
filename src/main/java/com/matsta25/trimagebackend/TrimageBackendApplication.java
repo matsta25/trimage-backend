@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 @SpringBootApplication
@@ -24,6 +25,26 @@ public class TrimageBackendApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         logger.info("TrimageBackendApplication: run()");
+
+        String[] command = {"/goinstall.sh"};
+        ProcessBuilder p = new ProcessBuilder(command);
+
+        try {
+
+            // create a process builder to send a command and a argument
+            Process p2 = p.start();
+            BufferedReader br = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+            String line;
+
+            logger.info("Output of running " + command + " is: ");
+            System.out.println("Output of running " + command + " is: ");
+            while ((line = br.readLine()) != null) {
+                logger.info(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
