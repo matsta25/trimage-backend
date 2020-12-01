@@ -26,7 +26,7 @@ public class RenderUtil {
     static Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
     public static void render(String fileName) throws IOException {
-        logger.info("render()");
+        logger.info("RenderUtil: render()");
 //        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         // ProcessBuilder builder = new ProcessBuilder("ping", "google.com");
