@@ -11,12 +11,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.matsta25.trimagebackend.TrimageBackendApplication.IS_PRODUCTION;
 
 @Service
 public class RenderUtil {
-    public static final int numberOfShapes = 100;
+    public static int numberOfShapesTotal;
 
     @Autowired
     private static SimpMessagingTemplate webSocket;
@@ -26,18 +28,21 @@ public class RenderUtil {
     }
 
     static Logger logger = LoggerFactory.getLogger(RenderUtil.class);
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public static void render(String fileName) throws IOException {
+    public static void render(String fileName, String numberOfShapes, String mode) throws IOException {
         logger.info("RenderUtil: render()");
+
+        numberOfShapesTotal = Integer.parseInt(numberOfShapes);
 
         if (IS_PRODUCTION) {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("bash", "-c", "/app/go/bin/primitive -i static/photos/" + fileName + " -o static/photos/output_" + fileName + " -n " + String.valueOf(numberOfShapes) + " -v");
+            processBuilder.command("bash", "-c", "/app/go/bin/primitive -i static/photos/" + fileName + " -o static/photos/output_" + fileName + " -n " + String.valueOf(numberOfShapes) + " -m " + mode + " -v");
             processBuilder.redirectErrorStream(true);
             final Process process = processBuilder.start();
             watchProgress(process, fileName);
         } else {
-            ProcessBuilder processBuilder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
+            ProcessBuilder processBuilder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes),"-m", mode, "-v");
             processBuilder.redirectErrorStream(true);
             final Process process = processBuilder.start();
             watchProgress(process, fileName);
@@ -53,15 +58,15 @@ public class RenderUtil {
                     System.out.println(line);
                     Integer result = getActualNumberOfShapes(line);
                     if (result != null) {
-                        double resultFloatPercent = (double) result / numberOfShapes * 100;
-                        webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("PROGRESS", String.valueOf(resultFloatPercent)));
+                        double resultFloatPercent = (double) result / numberOfShapesTotal * 100;
+                        webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("PROGRESS", String.valueOf(round(resultFloatPercent,1))));
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("STATUS", "DONE"));
-                // FileUtil.deleteFile(fileName);
+                logger.info("Done task: - {}", dateTimeFormatter.format(LocalDateTime.now()) );
             }
         }).start();
     }
@@ -72,5 +77,10 @@ public class RenderUtil {
             return Integer.parseInt(line.substring(0, numberEnd));
         }
         return null;
+    }
+
+    private static double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 }

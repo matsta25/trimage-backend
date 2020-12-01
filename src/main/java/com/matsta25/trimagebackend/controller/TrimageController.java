@@ -1,6 +1,7 @@
 package com.matsta25.trimagebackend.controller;
 
 
+import com.matsta25.trimagebackend.dto.JsonRenderPayload;
 import com.matsta25.trimagebackend.dto.JsonResponseDto;
 import com.matsta25.trimagebackend.exception.ImageNotFoundException;
 import com.matsta25.trimagebackend.service.TrimageService;
@@ -35,8 +36,8 @@ public class TrimageController {
     }
 
     @PostMapping("/render")
-    public ResponseEntity<String> render(@RequestBody() String fileName) throws IOException {
-        return trimageService.render(fileName);
+    public ResponseEntity<String> render(@RequestBody() JsonRenderPayload jsonRenderPayload) throws IOException {
+        return trimageService.render(jsonRenderPayload.getFileName(), jsonRenderPayload.getNumberOfShapes(), jsonRenderPayload.getMode());
     }
 
     @GetMapping("/photos/{filename}")

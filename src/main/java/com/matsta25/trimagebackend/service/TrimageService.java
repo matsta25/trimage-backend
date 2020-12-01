@@ -26,9 +26,9 @@ public class TrimageService {
         return new ResponseEntity<>(new JsonResponseDto(map), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> render(String fileName) throws IOException {
+    public ResponseEntity<String> render(String fileName, String numberOfShapes, String mode) throws IOException {
 
-        RenderUtil.render(fileName);
+        RenderUtil.render(fileName, numberOfShapes, mode);
 
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.BufferedReader;
@@ -13,9 +14,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @SpringBootApplication
+@EnableScheduling
 public class TrimageBackendApplication implements CommandLineRunner {
 
-    public static boolean IS_PRODUCTION = true;
+    public static boolean IS_PRODUCTION = false;
 
     Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
