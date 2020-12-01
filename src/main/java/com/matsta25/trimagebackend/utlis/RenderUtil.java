@@ -31,7 +31,7 @@ public class RenderUtil {
 //        ProcessBuilder builder = new ProcessBuilder("/app/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
 
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "/app/go/bin/primitive");
+        processBuilder.command("bash", "-c", "/app/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         processBuilder.redirectErrorStream(true);
         final Process process = processBuilder.start();
         watchProgress(process, fileName);
