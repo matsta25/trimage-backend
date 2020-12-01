@@ -28,6 +28,7 @@ public class TrimageBackendApplication implements CommandLineRunner {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
 //		processBuilder.command("bash", "-c", "primitive");
+        processBuilder.redirectErrorStream(true);
         var process = processBuilder.start();
 
         try (var reader = new BufferedReader(
