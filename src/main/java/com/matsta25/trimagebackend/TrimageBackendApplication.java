@@ -26,7 +26,7 @@ public class TrimageBackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("TrimageBackendApplication: run()");
 
-        String[] command = {"/goinstall.sh"};
+        String[] command = {"./goinstall.sh"};
         ProcessBuilder p = new ProcessBuilder(command);
 
         try {
