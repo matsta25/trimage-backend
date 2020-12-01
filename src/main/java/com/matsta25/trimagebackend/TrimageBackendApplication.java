@@ -26,28 +26,9 @@ public class TrimageBackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("TrimageBackendApplication: run()");
 
-        String[] command = {"./goinstall.sh"};
-        ProcessBuilder p = new ProcessBuilder(command);
-
-        try {
-
-            // create a process builder to send a command and a argument
-            Process p2 = p.start();
-            BufferedReader br = new BufferedReader(new InputStreamReader(p2.getInputStream()));
-            String line;
-
-            logger.info("Output of running " + command + " is: ");
-            System.out.println("Output of running " + command + " is: ");
-            while ((line = br.readLine()) != null) {
-                logger.info(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
+        processBuilder.command("bash", "-c", "./goinstall.sh");
+//        processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
 //		processBuilder.command("bash", "-c", "primitive");
         processBuilder.redirectErrorStream(true);
         var process = processBuilder.start();
