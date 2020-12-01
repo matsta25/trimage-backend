@@ -23,7 +23,8 @@ public class TrimageBackendApplication implements CommandLineRunner {
 		logger.info("TrimageBackendApplication: run()");
 
 		ProcessBuilder processBuilder = new ProcessBuilder();
-		processBuilder.command("installPrimitive.sh");
+		processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
+		processBuilder.command("bash", "-c", "primitive");
 		processBuilder.start();
 	}
 }
