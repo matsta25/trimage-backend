@@ -28,8 +28,7 @@ public class RenderUtil {
     public static void render(String fileName) throws IOException {
         logger.info("RenderUtil: render()");
 //        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
-        ProcessBuilder builder = new ProcessBuilder();
-        builder.command("primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
+        ProcessBuilder builder = new ProcessBuilder("primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
         builder.redirectErrorStream(true);
         final Process process = builder.start();
         watchProgress(process, fileName);
