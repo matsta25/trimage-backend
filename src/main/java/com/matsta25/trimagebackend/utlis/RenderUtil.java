@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
+import static com.matsta25.trimagebackend.TrimageBackendApplication.IS_PRODUCTION;
+
 @Service
 public class RenderUtil {
     public static final int numberOfShapes = 100;
@@ -27,14 +29,19 @@ public class RenderUtil {
 
     public static void render(String fileName) throws IOException {
         logger.info("RenderUtil: render()");
-//        ProcessBuilder builder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
-//        ProcessBuilder builder = new ProcessBuilder("/app/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
 
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "/app/go/bin/primitive -i static/photos/" + fileName + " -o static/photos/output_" + fileName + " -n " + String.valueOf(numberOfShapes) + " -v");
-        processBuilder.redirectErrorStream(true);
-        final Process process = processBuilder.start();
-        watchProgress(process, fileName);
+        if (IS_PRODUCTION) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "/app/go/bin/primitive -i static/photos/" + fileName + " -o static/photos/output_" + fileName + " -n " + String.valueOf(numberOfShapes) + " -v");
+            processBuilder.redirectErrorStream(true);
+            final Process process = processBuilder.start();
+            watchProgress(process, fileName);
+        } else {
+            ProcessBuilder processBuilder = new ProcessBuilder("/home/matsta25/go/bin/primitive", "-i", "static/photos/" + fileName, "-o", "static/photos/output_" + fileName, "-n", String.valueOf(numberOfShapes), "-v");
+            processBuilder.redirectErrorStream(true);
+            final Process process = processBuilder.start();
+            watchProgress(process, fileName);
+        }
     }
 
     public static void watchProgress(final Process process, String fileName) {
@@ -46,9 +53,8 @@ public class RenderUtil {
                     System.out.println(line);
                     Integer result = getActualNumberOfShapes(line);
                     if (result != null) {
-                        double resultFloatPercent = (double)result/numberOfShapes * 100;
+                        double resultFloatPercent = (double) result / numberOfShapes * 100;
                         webSocket.convertAndSend("/topic/trimage", new WebSocketMessage("PROGRESS", String.valueOf(resultFloatPercent)));
-//                        webSocket.convertAndSend("/topic/trimage", new WebSocketMessage().builder().type("PROGRESS").content(String.valueOf(resultFloatPercent)));
                     }
                 }
             } catch (IOException e) {

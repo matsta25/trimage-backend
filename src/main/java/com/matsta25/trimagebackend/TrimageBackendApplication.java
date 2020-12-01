@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 @SpringBootApplication
 public class TrimageBackendApplication implements CommandLineRunner {
 
+    public static boolean IS_PRODUCTION = false;
 
     Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
@@ -26,20 +27,20 @@ public class TrimageBackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("TrimageBackendApplication: run()");
 
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "./goinstall.sh");
-//        processBuilder.command("bash", "-c", "go get -u github.com/fogleman/primitive");
-//		processBuilder.command("bash", "-c", "primitive");
-        processBuilder.redirectErrorStream(true);
-        var process = processBuilder.start();
+        if (IS_PRODUCTION) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "./goinstall.sh");
+            processBuilder.redirectErrorStream(true);
+            var process = processBuilder.start();
 
-        try (var reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()))) {
+            try (var reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
 
-            String line;
+                String line;
 
-            while ((line = reader.readLine()) != null) {
-                logger.info(line);
+                while ((line = reader.readLine()) != null) {
+                    logger.info(line);
+                }
             }
         }
     }
