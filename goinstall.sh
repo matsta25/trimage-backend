@@ -156,5 +156,7 @@ echo -e "\n\tsource $shell_profile\n\nto update your environment variables."
 echo "Tip: Opening a new terminal window usually just works. :)"
 rm -f "$TEMP_DIRECTORY/go.tar.gz"
 
+echo 'source ~/.bashrc'
+
 echo 'go get -u github.com/fogleman/primitive'
 echo 'primitive'
