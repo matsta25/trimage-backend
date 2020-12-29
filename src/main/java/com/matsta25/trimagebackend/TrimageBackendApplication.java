@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 @SpringBootApplication
 @EnableScheduling
 public class TrimageBackendApplication implements CommandLineRunner {
-
     public static boolean IS_PRODUCTION = true;
     Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
