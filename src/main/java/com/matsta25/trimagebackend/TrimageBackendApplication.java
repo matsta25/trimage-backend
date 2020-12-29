@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 public class TrimageBackendApplication implements CommandLineRunner {
 
     public static boolean IS_PRODUCTION = true;
-
     Logger logger = LoggerFactory.getLogger(RenderUtil.class);
 
     public static void main(String[] args) {
